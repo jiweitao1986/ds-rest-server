@@ -1,0 +1,25 @@
+{
+  "name": "learn-angular-server",
+  "version": "1.0.0",
+  "description": "learn angular server",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test":  "./node_modules/.bin/jasmine spec/mock.model.spec.js"
+  },
+  "keywords": [
+    "express"
+  ],
+  "author": "Witt",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "jade": "^1.11.0",
+    "lodash": "^4.17.5"
+  },
+  "devDependencies": {
+    "jasmine": "^3.0.0",
+    "jasmine-node": "^1.14.5"
+  }
+}
