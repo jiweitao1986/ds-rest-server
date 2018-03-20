@@ -2,22 +2,45 @@ var fs = require('fs');
 var path = require('path');
 var _ = require('lodash');
 
-var empModel = {
 
-  /**
-   * 文件目录
-   */
-  fileDir: '../data/',
+function EmpModel(options) {
 
-  /**
-   * 表配置
-   */
+  // 调用父构造函数
+  Model.call(this, options);
+}
+
+// 原型构造
+EmpModel.prototype = Object.create(
+  Model.prototype,
+  {
+    constructor: { configurable: true, enumerable: true, value: EmpModel, writable: true}
+  }
+);
+
+
+
+/**
+ * 模型配置
+ */
+var options = {
+  
+  // 相对于 /models/model.js，待优化
+  fileDir: '../data/emp-model/',
   tableConfigs: [
-    { tableName: 'Emp',    parentTable: '',    primaryKey: 'ID', foreignKey: ''},
-    { tableName: 'Edu',    parentTable: 'Emp', primaryKey: 'ID', foreignKey: 'EmpID'},
-    { tableName: 'Job',    parentTable: 'Emp', primaryKey: 'ID', foreignKey: 'EmpID'},
-    { tableName: 'Income', parentTable: 'Emp', primaryKey: 'ID', foreignKey: 'EmpID'},
-  ],
+    { tableName: 'Emp',    parentTable: '',    primaryKey: 'ID', foreignKey: '' },
+    { tableName: 'Edu',    parentTable: 'Emp', primaryKey: 'ID', foreignKey: 'EmpID' },
+    { tableName: 'Job',    parentTable: 'Emp', primaryKey: 'ID', foreignKey: 'EmpID' },
+    { tableName: 'Income', parentTable: 'Emp', primaryKey: 'ID', foreignKey: 'EmpID' },
+  ]
+};
+
+var empModel = new EmpModel(options);
+module.exports  =empModel;
+
+
+
+
+//var empModel = {
 
   // /**
   //  * 获取列表(只获取主表数据)
@@ -94,35 +117,6 @@ var empModel = {
   //  */
   // multiSave: function(data) {
   //   console.log('暂不实现');
-  // },
-
-
-  // // ----------------------------------------
-  // // 表配置处理工具方法
-  // // ----------------------------------------
-
-  // /**
-  //  * 获取tableName的表配置
-  //  */
-  // getTableConfig: function(tableName) {
-  //   var tableConfig = _.find(self.tableConfigs, {tableName: tableName});
-  //   return tableConfig;
-  // },
-
-  // /**
-  //  * 获取主表表配置
-  //  */
-  // getParentTableConfig: function() {
-  //   var tableConfig = _.find(self.tableConfigs, {parentTable: ''});
-  //   return tableConfig;
-  // },
-
-  // /**
-  //  * 获取主表表名
-  //  */
-  // getParentTableName: function() {
-  //   var tableConfig = this.getParentTableConfig();
-  //   return tableConfig[tableName];
   // },
 
 
@@ -236,83 +230,4 @@ var empModel = {
 
   //   return isExist;
   // },
-
-
-  // // ----------------------------------------
-  // // JSON文件操作
-  // // ----------------------------------------
-
-  /**
-   * 获取表对应的JSON文件
-   */
-  getFilePath: function(tableName) {
-    var fileName = tableName + '.json';
-    return path.resolve(__dirname, this.fileDir + fileName);
-  },
-
-  /**
-   * 从JSON文件中获取员工列表
-   */
-  getTableDataFromFile: function(tableName) {
-    var path, json, tableData;
-    path = this.getFilePath(tableName);
-    json = fs.readFileSync(path);
-    tableData = JSON.parse(json);
-
-    return tableData;
-  },
-
-  /**
-   * 从JSON文件中获取全部数据
-   */
-  getAllDataFromFile: function() {
-    var self, result;
-    self = this;
-    result = {};
-
-    _.each(this.tableConfigs, function(tableConfig) {
-      var tableName = tableConfig.tableName;
-      result[tableName] = self.getTableDataFromFile(tableName);
-    });
-
-    return result;
-  },
-
-  /**
-   * 将员工列表写入到JSON文件中
-   */
-  saveTableDataToFile: function(tableName, tableData) {
-    var path, json;
-    tableData = _.orderBy(
-      tableData,
-      function(item) {
-        return parseInt(item.ID);
-      },
-      'asc'
-    );
-    path = this.getFilePath(tableName);
-    json = JSON.stringify(tableData);
-    fs.writeFileSync(path, json);
-  },
-
-  /**
-   * 将数据设置到相关JSON文件中
-   */
-  saveAllDataToFile: function(data) {
-    var self, result;
-    self = this;
-    result = {};
-
-    _.each(this.tableConfigs, function(tableConfigs) {
-      var tableName, tableData;
-      tableName = table.tableName;
-      tableData = data[tableName] ? data[tableName] : [];
-      self.saveTableData(tableName, tableData);
-    });
-
-    return result;
-  }
-
-}
-
-module.exports = empModel;
+//}
