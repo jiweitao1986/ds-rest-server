@@ -22,7 +22,7 @@ var options = {
   // 相对于 /models/model.js，待优化
   fileDir: '../data/dept-model/',
   tableConfigs: [
-    { tableName: 'Dept',    parentTable: '',    primaryKey: 'ID', foreignKey: '', columnNames: ['ID', 'Code',  'Name'] }
+    { tableName: 'dept',    parentTable: '',    primaryKey: 'id', foreignKey: '', columnNames: ['id', 'code',  'name'] }
   ]
 };
 

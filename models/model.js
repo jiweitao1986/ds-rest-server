@@ -125,17 +125,17 @@ Model.prototype = {
   /**
    * 删除
    */
-  del: function(id) {
+  delInfo: function(id) {
     var allData, newAllData;
     allData = this.getAllDataFromFile();
-    newAllData = this.delDataByID(id);
+    newAllData = this.delDataByID(allData, id);
     this.saveAllDataToFile(newAllData);
   },
 
   /**
    * 批量删除
    */
-  multiDel: function(ids) {
+  delList: function(ids) {
     var self = this;
     _.each(ids, function(id) {
       self.del(id);
@@ -247,7 +247,7 @@ Model.prototype = {
     tableData = data[tableName];
     
     // 判断行是否存在
-    isExist = _.some(tableData, ['ID', id]);
+    isExist = _.some(tableData, ['id', id]);
 
     return isExist;
   },
